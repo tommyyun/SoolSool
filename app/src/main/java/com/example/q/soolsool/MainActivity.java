@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                if(msg.arg1==0) {
+                if (msg.arg1 == 0) {
                     findViewById(R.id.splash_image).setVisibility(View.GONE);
                     findViewById(R.id.main_layout).setVisibility(View.VISIBLE);
                 }
@@ -49,13 +49,12 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 Message msg = new Message();
-                msg.arg1=0;
+                msg.arg1 = 0;
                 handler.sendMessage(msg);
             }
         }.start();
 
     }
-
 
 
     class TabAdapter extends FragmentPagerAdapter {
@@ -67,10 +66,13 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int i) {
-            switch(i) {
-                case 0 : return new Tab1();
-                case 1 : return new Tab2();
-                case 2 : return new Tab3();
+            switch (i) {
+                case 0:
+                    return new Tab1();
+                case 1:
+                    return new Tab2();
+                case 2:
+                    return new Tab3();
             }
             return null;
         }
@@ -78,10 +80,13 @@ public class MainActivity extends AppCompatActivity {
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
-            switch(position) {
-                case 0 : return "Tab1";
-                case 1 : return "Tab2";
-                case 2 : return "Tab3";
+            switch (position) {
+                case 0:
+                    return "Tab1";
+                case 1:
+                    return "Tab2";
+                case 2:
+                    return "Tab3";
             }
             return null;
         }

@@ -2,52 +2,52 @@ package com.example.q.soolsool;
 
 public class Room {
 
-    public int INTEREST_LOVE = 0;
-    public int INTEREST_WORK = 1;
-    public int INTEREST_LIFE = 2;
-    public int INTEREST_POLITICS = 3;
+//    public static int INTEREST_LOVE = 0;
+//    public static int INTEREST_WORK = 1;
+//    public static int INTEREST_LIFE = 2;
+//    public static int INTEREST_POLITICS = 3;
 
-    public int REGION_SEOUL_YONGSAN = 90;
-    public int REGION_SEOUL_DONDAEMUN = 91;
-    public int REGION_SEOUL_HANNAM = 92;
+    public static int REGION_SEOUL_YONGSAN = 90;
+    public static int REGION_SEOUL_DONDAEMUN = 91;
+    public static int REGION_SEOUL_HANNAM = 92;
 
-    private int interest = -1;
+    private String interest;
     private int region = -1;
     private String title;
     private String description;
     private int maxHold = -1;
     private int currentHold = -1;
 
-    public int getInterest() throws InstantiationException {
-        if(interest == -1) {
+    public String getInterest() throws InstantiationException {
+        if (interest == null) {
             throw new InstantiationException("Interest field not instantiated!");
         }
         return interest;
     }
 
     public int getRegion() throws InstantiationException {
-        if(region == -1) {
+        if (region == -1) {
             throw new InstantiationException("Region field not instantiated!");
         }
         return region;
     }
 
     public String getTitle() throws InstantiationException {
-        if(title == null) {
+        if (title == null) {
             throw new InstantiationException("Title field not instantiated!");
         }
         return title;
     }
 
     public String getDescription() throws InstantiationException {
-        if(description == null) {
+        if (description == null) {
             throw new InstantiationException("Description field not instantiated!");
         }
         return description;
     }
 
     public int getMaxHold() throws InstantiationException {
-        if(maxHold == -1) {
+        if (maxHold == -1) {
             throw new InstantiationException("MaxHold field not instantiated!");
         }
         return maxHold;
@@ -60,7 +60,7 @@ public class Room {
         return currentHold;
     }
 
-    public Room setInterest(int _interest) {
+    public Room setInterest(String _interest) {
         interest = _interest;
         return this;
     }
@@ -91,13 +91,13 @@ public class Room {
     }
 
     public String toString() {
-        String output =  "";
-        output+="Interest : "+interest;
-        output+="\nRegion : "+region;
-        output+="\nTitle : "+title;
-        output+="\nDescription : "+description;
-        output+="\nMax hold : " +maxHold;
-        output+="\nCurrent hold : "+currentHold;
+        String output = "";
+        output += "Interest : " + interest;
+        output += "\nRegion : " + region;
+        output += "\nTitle : " + title;
+        output += "\nDescription : " + description;
+        output += "\nMax hold : " + maxHold;
+        output += "\nCurrent hold : " + currentHold;
 
         return output;
     }
