@@ -22,8 +22,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.zip.Inflater;
-
 public class Tab1 extends Fragment {
     static JSONObject json;
 
