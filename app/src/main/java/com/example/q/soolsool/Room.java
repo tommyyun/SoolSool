@@ -11,7 +11,7 @@ public class Room {
     public static int REGION_SEOUL_DONDAEMUN = 91;
     public static int REGION_SEOUL_HANNAM = 92;
 
-    private int interest = -1;
+    private String interest = null;
     private int region = -1;
     private String title;
     private String description;
@@ -19,8 +19,8 @@ public class Room {
     private int maxHold = -1;
     private int currentHold = -1;
 
-    public int getInterest() throws InstantiationException {
-        if(interest == -1) {
+    public String getInterest() throws InstantiationException {
+        if(interest == null) {
             throw new InstantiationException("Interest field not instantiated!");
         }
         return interest;
@@ -68,7 +68,7 @@ public class Room {
         return currentHold;
     }
 
-    public Room setInterest(int _interest) {
+    public Room setInterest(String _interest) {
         interest = _interest;
         return this;
     }
