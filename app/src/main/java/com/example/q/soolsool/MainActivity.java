@@ -12,9 +12,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import java.lang.ref.WeakReference;
+
 public class MainActivity extends AppCompatActivity {
 
-    Handler handler;
+    private static class MainHandler extends Handler {
+        WeakReference<MainActivity> activity;
+
+        MainHandler(MainActivity _activity) {
+            activity = new WeakReference<>(_activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.arg1==0) {
+                activity.get().findViewById(R.id.splash_image).setVisibility(View.GONE);
+                activity.get().findViewById(R.id.main_layout).setVisibility(View.VISIBLE);
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,18 +43,8 @@ public class MainActivity extends AppCompatActivity {
         TabAdapter tabAdapter = new TabAdapter(getSupportFragmentManager());
         viewPager.setAdapter(tabAdapter);
         tabLayout.setupWithViewPager(viewPager);
-//        setSupportActionBar((Toolbar)findViewById(R.id.toolbar));
 
-        handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                if(msg.arg1==0) {
-                    findViewById(R.id.splash_image).setVisibility(View.GONE);
-                    findViewById(R.id.main_layout).setVisibility(View.VISIBLE);
-                }
-            }
-        };
+        final Handler handler = new MainHandler(this);
 
         new Thread() {
             @Override
@@ -61,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     class TabAdapter extends FragmentPagerAdapter {
 
 
-        public TabAdapter(FragmentManager fm) {
+        TabAdapter(FragmentManager fm) {
             super(fm);
         }
 

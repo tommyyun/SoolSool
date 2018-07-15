@@ -15,6 +15,7 @@ public class Room {
     private int region = -1;
     private String title;
     private String description;
+    private int minHold = -1;
     private int maxHold = -1;
     private int currentHold = -1;
 
@@ -44,6 +45,13 @@ public class Room {
             throw new InstantiationException("Description field not instantiated!");
         }
         return description;
+    }
+
+    public int getMinHold() throws InstantiationException {
+        if(minHold==-1) {
+            throw new InstantiationException("MinHold field not instantiated!");
+        }
+        return minHold;
     }
 
     public int getMaxHold() throws InstantiationException {
@@ -80,6 +88,11 @@ public class Room {
         return this;
     }
 
+    public Room setMinHold(int _minHold) {
+        minHold= _minHold;
+        return this;
+    }
+
     public Room setMaxHold(int _maxHold) {
         maxHold = _maxHold;
         return this;
@@ -96,6 +109,7 @@ public class Room {
         output+="\nRegion : "+region;
         output+="\nTitle : "+title;
         output+="\nDescription : "+description;
+        output+="\nMin hold : "+minHold;
         output+="\nMax hold : " +maxHold;
         output+="\nCurrent hold : "+currentHold;
 
