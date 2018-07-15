@@ -2,14 +2,14 @@ package com.example.q.soolsool;
 
 public class Room {
 
-    public int INTEREST_LOVE = 0;
-    public int INTEREST_WORK = 1;
-    public int INTEREST_LIFE = 2;
-    public int INTEREST_POLITICS = 3;
+    public static int INTEREST_LOVE = 0;
+    public static int INTEREST_WORK = 1;
+    public static int INTEREST_LIFE = 2;
+    public static int INTEREST_POLITICS = 3;
 
-    public int REGION_SEOUL_YONGSAN = 90;
-    public int REGION_SEOUL_DONDAEMUN = 91;
-    public int REGION_SEOUL_HANNAM = 92;
+    public static int REGION_SEOUL_YONGSAN = 90;
+    public static int REGION_SEOUL_DONDAEMUN = 91;
+    public static int REGION_SEOUL_HANNAM = 92;
 
     private int interest = -1;
     private int region = -1;
