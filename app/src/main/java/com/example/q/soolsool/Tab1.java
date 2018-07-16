@@ -1,9 +1,11 @@
 package com.example.q.soolsool;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,19 +33,31 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Tab1 extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab1, container, false);
-        final RecyclerView rec_view = view.findViewById(R.id.tab1_rec);
+        final RecyclerView rec_view = view.findViewById(R.id.tab1_all_rooms);
 
         final Tab1Adapter roomAdapter = new Tab1Adapter();
         rec_view.setAdapter(roomAdapter);
         LinearLayoutManager lm = new LinearLayoutManager(getContext());
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         rec_view.setLayoutManager(lm);
+
+        FloatingActionButton create_room = (FloatingActionButton) view.findViewById(R.id.add_room);
+        create_room.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), AddRoomActivity.class);
+                        startActivity(intent);
+                    }
+                }
+        );
 
         Volley.newRequestQueue(getContext()).add(new JsonArrayRequest("http://52.231.70.8:8080/room", new Response.Listener<JSONArray>() {
             @Override
@@ -64,7 +78,9 @@ public class Tab1 extends Fragment {
                                 .setTitle(json.getString("title"))
                                 .setDescription(json.getString("content"))
                                 .setMinHold(json.getInt("minHold"))
-                                .setMaxHold(json.getInt("maxHold"));
+                                .setMaxHold(json.getInt("maxHold"))
+                                .setCurrentHold(json.getInt("currentHold"))
+                                .setRoomid(json.getString("_id"));
 
                         roomAdapter.addItem(room);
 
@@ -76,6 +92,7 @@ public class Tab1 extends Fragment {
         }, null));
 
         return view;
+
     }
 
     class Tab1Adapter extends RecyclerView.Adapter<Tab1Adapter.Viewholder> {
@@ -102,7 +119,7 @@ public class Tab1 extends Fragment {
                 title.setText(rooms.get(i).getTitle());
                 content.setText(rooms.get(i).getDescription());
                 max.setText(" / " + rooms.get(i).getMaxHold() + "");
-                current.setText(rooms.get(i).getParticipants().length + "");
+                current.setText(rooms.get(i).getCurrentHold() + "");
                 String strcat = rooms.get(i).getInterest();
 
                 switch (strcat) {
@@ -169,7 +186,27 @@ public class Tab1 extends Fragment {
                                         delete.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                Toast.makeText(getActivity(), "삭제 기능을 곧 추가할 예정입니다.", Toast.LENGTH_LONG).show();
+                                                try {
+                                                    Volley.newRequestQueue(getContext()).add(new StringRequest(Request.Method.DELETE, "http://52.231.70.8:8080/delete_created/" + MainActivity.id + "/" + rooms.get(i).getRoomid(),
+                                                            new Response.Listener<String>() {
+                                                                @Override
+                                                                public void onResponse(String response) {
+                                                                    System.out.println(response);
+                                                                    mPopupWindow.dismiss();
+                                                                    Toast.makeText(getActivity(), "삭제되었습니다.", Toast.LENGTH_LONG).show();
+                                                                }
+                                                            },
+                                                            new Response.ErrorListener() {
+                                                                @Override
+                                                                public void onErrorResponse(VolleyError error) {
+                                                                    System.out.println("==============");
+                                                                    System.out.println(error.getMessage());
+                                                                }
+                                                            }));
+                                                } catch (Exception e) {
+                                                    System.out.println(e.getMessage());
+                                                    e.printStackTrace();
+                                                }
                                             }
                                         });
                                     } else {
@@ -187,11 +224,21 @@ public class Tab1 extends Fragment {
                                             }
                                         });
 
-                                        Button delete = (Button) popupView.findViewById(R.id.join);
-                                        delete.setOnClickListener(new View.OnClickListener() {
+                                        Button join = (Button) popupView.findViewById(R.id.join);
+                                        join.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                Toast.makeText(getActivity(), "참여 기능을 곧 추가할 예정입니다.", Toast.LENGTH_LONG).show();
+                                                try{
+                                                    Volley.newRequestQueue(getContext()).add(new StringRequest(Request.Method.GET, "http://52.231.70.8:8080/join/" + MainActivity.id + "/" + rooms.get(i).getRoomid(), new Response.Listener<String>() {
+                                                        @Override
+                                                        public void onResponse(String response) {
+                                                            mPopupWindow.dismiss();
+                                                            Toast.makeText(getActivity(), "참여하였습니다.", Toast.LENGTH_LONG).show();
+                                                        }
+                                                    }, null));
+                                                } catch(Exception e){
+                                                    e.printStackTrace();
+                                                }
                                             }
                                         });
                                     }

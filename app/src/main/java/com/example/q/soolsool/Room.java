@@ -20,6 +20,15 @@ public class Room {
     private int currentHold = -1;
     private String leader = null;
     private String[] participants = null;
+    private String roomid = null;
+
+
+    public String getRoomid() throws InstantiationException{
+        if (roomid ==null){
+            throw new InstantiationException("Leader field not instantiated!");
+        }
+        return roomid;
+    }
 
     public String getLeader() throws InstantiationException{
         if (leader == null){
@@ -83,6 +92,12 @@ public class Room {
         }
         return currentHold;
     }
+
+    public Room setRoomid(String _roomid){
+        roomid = _roomid;
+        return this;
+    }
+
 
     public Room setLeader(String _leader){
         leader = _leader;
