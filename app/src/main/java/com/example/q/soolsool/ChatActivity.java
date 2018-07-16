@@ -22,9 +22,12 @@ import java.util.ArrayList;
 public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        RecyclerView chat_rec_view = findViewById(R.id.chat_rec_view);
+
+        // Identify recyclerview and set adapter and layout manager.
+        final RecyclerView chat_rec_view = findViewById(R.id.chat_rec_view);
         final ChatRecViewAdapter chatRecViewAdapter = new ChatRecViewAdapter();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         findViewById(R.id.send_button).setOnClickListener(new View.OnClickListener() {
@@ -36,7 +39,16 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
         chat_rec_view.setAdapter(chatRecViewAdapter);
+        chat_rec_view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
+                // When layout changes and adapter has one or more items, set focus to the bottom
+                if(chat_rec_view.getAdapter().getItemCount()>0)
+                    chat_rec_view.smoothScrollToPosition(chat_rec_view.getAdapter().getItemCount()-1);
+            }
+        });
         chat_rec_view.setLayoutManager(layoutManager);
+
     }
 
     class SingleMessage {
@@ -54,27 +66,6 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    class ChatViewAdapter extends ArrayAdapter<SingleMessage> {
-
-        public ChatViewAdapter(@NonNull Context context, int resource) {
-            super(context, resource);
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            if(convertView!=null) {
-                ((TextView) convertView.findViewById(R.id.single_message_message)).setText(getItem(position).text);
-                ((TextView) convertView.findViewById(R.id.single_message_person)).setText(getItem(position).person);
-                return convertView;
-            }
-            View view = ((LayoutInflater) getContext().getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.activity_chat_single_message, parent, false);
-            ((TextView) view.findViewById(R.id.single_message_message)).setText(getItem(position).text);
-            ((TextView) view.findViewById(R.id.single_message_person)).setText(getItem(position).person);
-            return view;
-        }
-    }*/
     class ChatRecViewAdapter extends RecyclerView.Adapter<ChatRecViewAdapter.ViewHolder> {
 
         ArrayList<SingleMessage> messages = new ArrayList<>();
