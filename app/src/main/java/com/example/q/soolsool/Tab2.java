@@ -1,6 +1,7 @@
 package com.example.q.soolsool;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -43,6 +44,14 @@ public class Tab2 extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+            viewHolder.itemView.setOnClickListener(
+                    new View.OnClickListener(){
+                        public void onClick(View v){
+                            Intent intent = new Intent(getContext(), ChatActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+            );
             return;
         }
 
