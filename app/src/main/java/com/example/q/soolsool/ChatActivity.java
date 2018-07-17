@@ -18,9 +18,18 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 
 public class ChatActivity extends AppCompatActivity {
+
+    private String room_id = "5b4dfef4737d77c7a5ec94eb";
 
     public int messageStart = -1;
     public int messageEnd = -1;
@@ -35,14 +44,22 @@ public class ChatActivity extends AppCompatActivity {
         final RecyclerView chat_rec_view = findViewById(R.id.chat_rec_view);
         final ChatRecViewAdapter chatRecViewAdapter = new ChatRecViewAdapter();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        findViewById(R.id.send_button).setOnClickListener(new View.OnClickListener() {
+
+
+
+
+
+        /*findViewById(R.id.send_button).setOnClickListener(new View.OnClickListener() {
             int i = 0;
 
             @Override
             public void onClick(View view) {
                 chatRecViewAdapter.addItem(new SingleMessage("Person "+ ++i, i+"th message"));
             }
-        });
+        });*/
+
+
+
         chat_rec_view.setAdapter(chatRecViewAdapter);
         chat_rec_view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
@@ -54,6 +71,13 @@ public class ChatActivity extends AppCompatActivity {
         });
         chat_rec_view.setLayoutManager(layoutManager);
 
+
+        Volley.newRequestQueue(this).add(new JsonArrayRequest(JsonArrayRequest.Method.GET, "http://52.231.70.8:9090/receive/initial/"+room_id, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                System.out.println(response);
+            }
+        }, null));
     }
 
     class SingleMessage {
