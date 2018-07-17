@@ -67,23 +67,20 @@ public class AddRoomActivity extends AppCompatActivity {
             }
 
             private void updateLabel() {
-                String myFormat = "MM/dd/yy"; //In which you need put here
-                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
-
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 day.setText(sdf.format(myCalendar.getTime()));
+
             }
         };
         day.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 new DatePickerDialog(AddRoomActivity.this, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-
 
         time.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -95,7 +92,15 @@ public class AddRoomActivity extends AppCompatActivity {
                 mTimePicker = new TimePickerDialog(AddRoomActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        time.setText( selectedHour + ":" + selectedMinute);
+                        String hour = String.valueOf(selectedHour);
+                        String min = String.valueOf(selectedMinute);
+
+                        if (selectedHour < 10)
+                            hour = "0" + hour;
+                        if (selectedMinute <10)
+                            min = "0"+ min;
+
+                        time.setText(hour + ":" + min);
                     }
                 }, hour, minute, true);//Yes 24 hour time
                 mTimePicker.setTitle("Select Time");

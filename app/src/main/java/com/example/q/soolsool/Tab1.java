@@ -277,10 +277,12 @@ public class Tab1 extends Fragment {
                                             //popupView 에서 (LinearLayout 을 사용) 레이아웃이 둘러싸고 있는 컨텐츠의 크기 만큼 팝업 크기를 지정
                                             mPopupWindow.setFocusable(true); // 외부 영역 선택시 PopUp 종료
                                             mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                                            System.out.println("========================이미참여이미참여이미참여===================");
                                             Button cancel = (Button) popupView.findViewById(R.id.Cancel);
                                             cancel.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
+                                                    System.out.println("=============취소=========이미참여이미참여이미참여=========취소=======");
                                                     mPopupWindow.dismiss();
                                                 }
                                             });
@@ -290,6 +292,7 @@ public class Tab1 extends Fragment {
                                                 @Override
                                                 public void onClick(View v) {
                                                     try {
+                                                        System.out.println("=============나감=========이미참여이미참여이미참여=========나감=======");
 
                                                         Volley.newRequestQueue(getContext()).add(new StringRequest(Request.Method.DELETE, "http://52.231.70.8:8080/delete_joined/" + MainActivity.id + "/" + rooms.get(i).getRoomid(), new Response.Listener<String>() {
                                                             @Override
@@ -312,10 +315,12 @@ public class Tab1 extends Fragment {
                                             //popupView 에서 (LinearLayout 을 사용) 레이아웃이 둘러싸고 있는 컨텐츠의 크기 만큼 팝업 크기를 지정
                                             mPopupWindow.setFocusable(true); // 외부 영역 선택시 PopUp 종료
                                             mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                                            System.out.println("==========================참여안함참여안함참여안함================");
                                             Button cancel = (Button) popupView.findViewById(R.id.Cancel);
                                             cancel.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
+                                                    System.out.println("=============나감=========참여안함참여안함참여안함=========나감=======");
 
                                                     mPopupWindow.dismiss();
                                                 }
@@ -326,6 +331,7 @@ public class Tab1 extends Fragment {
                                                 @Override
                                                 public void onClick(View v) {
                                                     try {
+                                                        System.out.println("=============참여=========참여안함참여안함참여안함=========참여=======");
 
                                                         Volley.newRequestQueue(getContext()).add(new StringRequest(Request.Method.GET, "http://52.231.70.8:8080/join/" + MainActivity.id + "/" + rooms.get(i).getRoomid(), new Response.Listener<String>() {
                                                             @Override

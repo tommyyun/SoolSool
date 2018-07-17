@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -44,7 +45,14 @@ public class Tab2 extends Fragment {
                     JSONArray jsonArr = new JSONArray(response);
                     for (int i = 0; i < jsonArr.length(); i++) {
                         JSONObject json = jsonArr.getJSONObject(i);
-                        matchedRoomAdapter.addItem(new Room().setTitle(json.getString("title")).setDescription(json.getString("content")));
+                        matchedRoomAdapter.addItem(new Room()
+                                .setTitle(json.getString("title"))
+                                .setDescription(json.getString("content"))
+                                .setRegion(json.getString("region"))
+                                .setDate(json.getString("date"))
+                                .setTime(json.getString("time"))
+                                .setInterest(json.getString("category"))
+                                .setLeader(json.getString("leader")));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -59,28 +67,76 @@ public class Tab2 extends Fragment {
         return view;
     }
 
-    private class Tab2MatchedRoomAdapter extends  RecyclerView.Adapter<Tab2MatchedRoomAdapter.ViewHolder> {
+    private class Tab2MatchedRoomAdapter extends RecyclerView.Adapter<Tab2MatchedRoomAdapter.ViewHolder> {
 
         private ArrayList<Room> matchedRooms = new ArrayList<>();
 
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            return new ViewHolder(((LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.tab2_matched_room, viewGroup, false));
+            return new ViewHolder(((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.tab2_matched_room, viewGroup, false));
         }
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+            View view = viewHolder.itemView;
+            TextView room_loc = view.findViewById(R.id.room_loc);
+            TextView room_title = view.findViewById(R.id.room_title);
+            TextView room_date = view.findViewById(R.id.room_date);
+            TextView room_time = view.findViewById(R.id.room_time);
+            TextView room_content = view.findViewById(R.id.room_description);
+            ImageView room_leader = view.findViewById(R.id.is_leader);
+            ImageView room_type = view.findViewById(R.id.room_type);
+
             try {
-                ((TextView) viewHolder.itemView.findViewById(R.id.room_title)).setText(matchedRooms.get(i).getTitle());
-                ((TextView) viewHolder.itemView.findViewById(R.id.room_description)).setText(matchedRooms.get(i).getDescription());
-            }catch(Exception e) {
+                System.out.println("=============================");
+                room_loc.setText(matchedRooms.get(i).getRegion());
+                room_title.setText(matchedRooms.get(i).getTitle());
+                room_date.setText(matchedRooms.get(i).getDate());
+                room_time.setText(matchedRooms.get(i).getTime());
+                room_content.setText(matchedRooms.get(i).getDescription());
+
+                String strcat = matchedRooms.get(i).getInterest();
+
+                switch (strcat) {
+                    case "love": {
+                        room_type.setImageResource(R.drawable.heart);
+                        room_type.setAlpha(0.3f);
+                        break;
+                    }
+                    case "life": {
+                        room_type.setImageResource(R.drawable.puzzle);
+                        room_type.setAlpha(0.3f);
+                        break;
+                    }
+                    case "work": {
+                        room_type.setImageResource(R.drawable.team);
+                        room_type.setAlpha(0.3f);
+                        break;
+                    }
+                    case "politics": {
+                        room_type.setImageResource(R.drawable.group);
+                        room_type.setAlpha(0.3f);
+                        break;
+                    }
+                    default:
+                        System.out.println("Error!!");
+                }
+                if (MainActivity.id.equals(matchedRooms.get(i).getLeader())) {
+                    room_leader.setImageResource(R.drawable.lace);
+                } else {
+                    room_leader.setImageResource(0);
+                }
+
+            } catch (Exception e) {
+                System.out.println("------------------------------");
+
                 System.out.println(e.getMessage());
                 e.printStackTrace();
             }
             viewHolder.itemView.setOnClickListener(
-                    new View.OnClickListener(){
-                        public void onClick(View v){
+                    new View.OnClickListener() {
+                        public void onClick(View v) {
                             Intent intent = new Intent(getContext(), ChatActivity.class);
                             startActivity(intent);
                         }
@@ -96,7 +152,7 @@ public class Tab2 extends Fragment {
 
         public void addItem(Room matchedRoom) {
             matchedRooms.add(matchedRoom);
-            notifyItemInserted(getItemCount()-1);
+            notifyItemInserted(getItemCount() - 1);
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {

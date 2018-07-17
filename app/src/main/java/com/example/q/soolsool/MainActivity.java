@@ -51,9 +51,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         ViewPager viewPager = findViewById(R.id.viewPager);
         viewPager.setOffscreenPageLimit(0);
-        TabAdapter tabAdapter = new TabAdapter(getSupportFragmentManager());
+        final TabAdapter tabAdapter = new TabAdapter(getSupportFragmentManager());
         viewPager.setAdapter(tabAdapter);
         tabLayout.setupWithViewPager(viewPager);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+                return;
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                System.out.println(i+"selected");
+                switch(i) {
+                    case 0 : {
+                        tabAdapter.reCreate1();
+                        System.out.println(11);
+                        break;
+                    }
+                    case 1 : {
+                        tabAdapter.reCreate2();
+                        System.out.println(22);
+                        break;
+                    }
+                    case 2 : {
+                        tabAdapter.reCreate3();
+                        System.out.println(33);
+                        break;
+                    }
+                    default : break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+                return;
+            }
+        });
 
 
         final Handler handler = new MainHandler(this);
@@ -84,6 +119,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     class TabAdapter extends FragmentPagerAdapter {
 
+        private Tab1 tab1 = new Tab1();
+        private Tab2 tab2 = new Tab2();
+        private Tab3 tab3 = new Tab3();
 
         TabAdapter(FragmentManager fm) {
             super(fm);
@@ -92,9 +130,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public Fragment getItem(int i) {
             switch(i) {
-                case 0 : return new Tab1();
-                case 1 : return new Tab2();
-                case 2 : return new Tab3();
+                case 0 : return tab1;
+                case 1 : return tab2;
+                case 2 : return tab3;
             }
             return null;
         }
@@ -108,6 +146,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case 2 : return "LogIn";
             }
             return null;
+        }
+
+        public void reCreate1() {
+        }
+
+        public void reCreate2() {
+            tab2 = new Tab2();
+        }
+
+        public void reCreate3() {
+            tab3 = new Tab3();
         }
 
 
