@@ -1,5 +1,8 @@
 package com.example.q.soolsool;
 
+import android.content.Intent;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -10,34 +13,48 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
 
-public class MainActivity extends AppCompatActivity {
+import java.lang.ref.WeakReference;
 
-    Handler handler;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    public static String id="on";
+    public static boolean loggedIn = true;
+
+    private static class MainHandler extends Handler {
+        WeakReference<MainActivity> activity;
+
+        MainHandler(MainActivity _activity) {
+            activity = new WeakReference<>(_activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.arg1==0) {
+                activity.get().findViewById(R.id.splash_image).setVisibility(View.GONE);
+                activity.get().findViewById(R.id.main_layout).setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ImageView daericall = (ImageView) findViewById(R.id.daericall);
+        daericall.setOnClickListener(this);
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         ViewPager viewPager = findViewById(R.id.viewPager);
         TabAdapter tabAdapter = new TabAdapter(getSupportFragmentManager());
         viewPager.setAdapter(tabAdapter);
         tabLayout.setupWithViewPager(viewPager);
-//        setSupportActionBar((Toolbar)findViewById(R.id.toolbar));
 
-        handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                if(msg.arg1==0) {
-                    findViewById(R.id.splash_image).setVisibility(View.GONE);
-                    findViewById(R.id.main_layout).setVisibility(View.VISIBLE);
-                }
-            }
-        };
+        final Handler handler = new MainHandler(this);
 
         new Thread() {
             @Override
@@ -56,12 +73,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onClick(View v){
+        Intent callIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("tel:1577-1577"));
+        startActivity(callIntent);
+    }
 
 
     class TabAdapter extends FragmentPagerAdapter {
 
 
-        public TabAdapter(FragmentManager fm) {
+        TabAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -79,9 +101,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             switch(position) {
-                case 0 : return "Tab1";
-                case 1 : return "Tab2";
-                case 2 : return "Tab3";
+                case 0 : return "Rooms";
+                case 1 : return "Chats";
+                case 2 : return "LogIn";
             }
             return null;
         }
