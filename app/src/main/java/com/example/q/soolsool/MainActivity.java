@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         viewPager.setAdapter(tabAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
+
         final Handler handler = new MainHandler(this);
 
         new Thread() {

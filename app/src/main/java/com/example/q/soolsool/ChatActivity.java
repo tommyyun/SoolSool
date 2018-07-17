@@ -21,6 +21,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class ChatActivity extends AppCompatActivity {
+
+    public int messageStart = -1;
+    public int messageEnd = -1;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
