@@ -21,6 +21,31 @@ public class Room {
     private String leader = null;
     private String[] participants = null;
     private String roomid = null;
+    private String place = null;
+    private String date = null;
+    private String time = null;
+
+    public String getPlace() throws InstantiationException{
+        if (place ==null){
+            throw new InstantiationException("Leader field not instantiated!");
+        }
+        return place;
+    }
+    public String getDate() throws InstantiationException{
+        if (date ==null){
+            throw new InstantiationException("Leader field not instantiated!");
+        }
+        return date;
+    }
+
+    public String getTime() throws InstantiationException{
+        if (time ==null){
+            throw new InstantiationException("Leader field not instantiated!");
+        }
+        return time;
+    }
+
+
 
 
     public String getRoomid() throws InstantiationException{
@@ -117,6 +142,15 @@ public class Room {
 
     public Room setRegion(int _region) {
         region = _region;
+        return this;
+    }
+
+    public Room setDate(String _date) {
+        date = _date;
+        return this;
+    }
+    public Room setTime(String _time) {
+        time = _time;
         return this;
     }
 
