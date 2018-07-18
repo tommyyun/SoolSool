@@ -1,6 +1,5 @@
 package com.example.q.soolsool;
 
-import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;

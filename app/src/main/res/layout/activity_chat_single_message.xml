@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/single"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:padding="5dp"
-    android:layout_margin="10dp"
-    android:background="@drawable/background_transparent_border_black"
-    android:orientation="vertical">
+    android:id="@+id/message_wrapper"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/single_message_person"
+    <LinearLayout
+        android:id="@+id/single"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15dp"
-        android:text="asdfase"/>
+        android:layout_margin="10dp"
+        android:background="@drawable/background_transparent_border_black"
+        android:orientation="vertical"
+        android:padding="5dp">
 
-    <TextView
-        android:id="@+id/single_message_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="0dp"
-        android:layout_marginTop="-5dp"
-        android:text="Message"
-        android:textColor="#000000"
-        android:textSize="25dp"/>
+        <TextView
+            android:id="@+id/single_message_person"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="asdfase"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/single_message_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-5dp"
+            android:padding="0dp"
+            android:text="Message"
+            android:textColor="#000000"
+            android:textSize="25dp" />
+    </LinearLayout>
+
 </LinearLayout>
