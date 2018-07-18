@@ -26,14 +26,14 @@ public class Room {
 
     public String getDate() throws InstantiationException{
         if (date ==null){
-            throw new InstantiationException("Leader field not instantiated!");
+            throw new InstantiationException("Date field not instantiated!");
         }
         return date;
     }
 
     public String getTime() throws InstantiationException{
         if (time ==null){
-            throw new InstantiationException("Leader field not instantiated!");
+            throw new InstantiationException("Time field not instantiated!");
         }
         return time;
     }
@@ -43,7 +43,7 @@ public class Room {
 
     public String getRoomid() throws InstantiationException{
         if (roomid ==null){
-            throw new InstantiationException("Leader field not instantiated!");
+            throw new InstantiationException("RoomId field not instantiated!");
         }
         return roomid;
     }
