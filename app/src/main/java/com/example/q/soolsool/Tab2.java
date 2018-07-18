@@ -146,21 +146,21 @@ public class Tab2 extends Fragment {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
             }
-            viewHolder.itemView.setOnClickListener(
-                    new View.OnClickListener() {
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getContext(), ChatActivity.class);
-                            try{
-                                intent.putExtra("room_id", matchedRooms.get(i).getRoomid());
-                                intent.putExtra("title", matchedRooms.get(i).getTitle());
-                                intent.putExtra("targetHold", Integer.toString(matchedRooms.get(i).getTargetHold()));
-                            }catch (Exception e){
-                                e.printStackTrace();
-                            }
-                            startActivity(intent);
-                        }
-                    }
-            );
+//            viewHolder.itemView.setOnClickListener(
+//                    new View.OnClickListener() {
+//                        public void onClick(View v) {
+//                            Intent intent = new Intent(getContext(), ChatActivity.class);
+//                            try{
+//                                intent.putExtra("room_id", matchedRooms.get(i).getRoomid());
+//                                intent.putExtra("title", matchedRooms.get(i).getTitle());
+//                                intent.putExtra("targetHold", Integer.toString(matchedRooms.get(i).getTargetHold()));
+//                            }catch (Exception e){
+//                                e.printStackTrace();
+//                            }
+//                            startActivity(intent);
+//                        }
+//                    }
+//            );
             return;
         }
 
