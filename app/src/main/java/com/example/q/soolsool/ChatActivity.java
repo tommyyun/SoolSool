@@ -82,39 +82,38 @@ public class ChatActivity extends AppCompatActivity {
                                 System.out.println("Message transmit succeeded");
                             }
                         }, null));*/
-                if(socket.connected()) {
+                if (socket.connected()) {
                     try {
-                        socket.emit("chat", new JSONObject("{\"room_id\" : "+"\""+room_id+"\""+", \"user_id\" : "+"\""+MainActivity.id+"\""+", \"message\" : "+"\""+((EditText) findViewById(R.id.message_field)).getText().toString()+"\""+"}"));
+                        socket.emit("chat", new JSONObject("{\"room_id\" : " + "\"" + room_id + "\"" + ", \"user_id\" : " + "\"" + MainActivity.id + "\"" + ", \"message\" : " + "\"" + ((EditText) findViewById(R.id.message_field)).getText().toString() + "\"" + "}"));
                     } catch (JSONException e) {
                         System.out.println(e.getMessage());
                         e.printStackTrace();
                     }
-                }
-                else
+                } else
                     Toast.makeText(ChatActivity.this, "Internet connection failed", Toast.LENGTH_SHORT).show();
             }
         });
 
         // Receive messages stored in the db
-        Volley.newRequestQueue(this).add(new JsonArrayRequest(JsonArrayRequest.Method.GET, "http://52.231.70.8:9090/receive/initial/"+room_id, null, new Response.Listener<JSONArray>() {
+        Volley.newRequestQueue(this).add(new JsonArrayRequest(JsonArrayRequest.Method.GET, "http://52.231.70.8:9090/receive/initial/" + room_id, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                for(int i=0;i<response.length();i++) {
+                for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject single_message_object = response.getJSONObject(i);
-                        if(i==0)
+                        if (i == 0)
                             messageStart = single_message_object.getInt("index");
-                        if(i==response.length()-1)
+                        if (i == response.length() - 1)
                             messageEnd = single_message_object.getInt("index");
-                        chatRecViewAdapter.addItem(new SingleMessage(single_message_object.getString("creator"), single_message_object.getString("message"), (single_message_object.getString("creator").equals(MainActivity.id))? true : false));
-                    }catch(Exception e) {
+                        chatRecViewAdapter.addItem(new SingleMessage(single_message_object.getString("creator"), single_message_object.getString("message"), (single_message_object.getString("creator").equals(MainActivity.id)) ? true : false));
+                    } catch (Exception e) {
                         System.out.println(e.getMessage());
                         e.printStackTrace();
                     }
                 }
 
                 //Scroll to the bottom after initialization
-                chat_rec_view.smoothScrollToPosition(chat_rec_view.getAdapter().getItemCount()-1);
+                chat_rec_view.smoothScrollToPosition(chat_rec_view.getAdapter().getItemCount() - 1);
             }
         }, null));
 
@@ -128,10 +127,10 @@ public class ChatActivity extends AppCompatActivity {
                 //When layout changes and adapter has one or more items, set focus to the bottom
 
                 //This catches SoftKeyboard show/hide
-                if(i3!=i7) {
-                    if(chat_rec_view.getAdapter().getItemCount()>0)
+                if (i3 != i7) {
+                    if (chat_rec_view.getAdapter().getItemCount() > 0)
                         //This checks whether the user is looking on the last item.
-                        if (chat_rec_view.computeVerticalScrollRange()-(chat_rec_view.computeVerticalScrollOffset()+i7-i5) < 100)
+                        if (chat_rec_view.computeVerticalScrollRange() - (chat_rec_view.computeVerticalScrollOffset() + i7 - i5) < 100)
                             chat_rec_view.smoothScrollToPosition(chat_rec_view.getAdapter().getItemCount() - 1);
                 }
             }
@@ -142,7 +141,7 @@ public class ChatActivity extends AppCompatActivity {
             public void call(Object... args) {
                 System.out.println("Websocket : \"chat\" received.");
                 System.out.println(args[0]);
-                if(args[0].equals(room_id))
+                if (args[0].equals(room_id))
                     Volley.newRequestQueue(ChatActivity.this).add(new JsonArrayRequest("http://52.231.70.8:9090/receive/update/" + room_id + "/" + messageEnd, new Response.Listener<JSONArray>() {
                         @Override
                         public void onResponse(JSONArray response) {
@@ -154,7 +153,7 @@ public class ChatActivity extends AppCompatActivity {
                                         messageEnd = single_message_object.getInt("index");
                                     chatRecViewAdapter.addItem(new SingleMessage(single_message_object.getString("creator"), single_message_object.getString("message"), (single_message_object.getString("creator").equals(MainActivity.id)) ? true : false));
                                     //Scroll to the bottom after initialization
-                                    chat_rec_view.smoothScrollToPosition(chat_rec_view.getAdapter().getItemCount()-1);
+                                    chat_rec_view.smoothScrollToPosition(chat_rec_view.getAdapter().getItemCount() - 1);
                                 } catch (Exception e) {
                                     System.out.println(e.getMessage());
                                     e.printStackTrace();
@@ -164,7 +163,7 @@ public class ChatActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            System.out.println("Error : "+error.toString());
+                            System.out.println("Error : " + error.toString());
                         }
                     }));
             }
@@ -174,11 +173,13 @@ public class ChatActivity extends AppCompatActivity {
     class SingleMessage {
         String person;
         String text;
-        boolean onMe=false;
+        boolean onMe = false;
+
         SingleMessage(String _person, String _text) {
             person = _person;
             text = _text;
         }
+
         SingleMessage(String _person, String _text, boolean _onMe) {
             person = _person;
             text = _text;
@@ -193,18 +194,17 @@ public class ChatActivity extends AppCompatActivity {
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-            return new ViewHolder(((LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.activity_chat_single_message, parent, false));
+            return new ViewHolder(((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.activity_chat_single_message, parent, false));
         }
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
             viewHolder.setMessage(messages.get(i).text);
             viewHolder.setPerson(messages.get(i).person);
-            if(messages.get(i).onMe) {
-                ((LinearLayout)viewHolder.itemView).setGravity(Gravity.RIGHT);
-            }
-            else {
-                ((LinearLayout)viewHolder.itemView).setGravity(Gravity.LEFT);
+            if (messages.get(i).onMe) {
+                ((LinearLayout) viewHolder.itemView).setGravity(Gravity.RIGHT);
+            } else {
+                ((LinearLayout) viewHolder.itemView).setGravity(Gravity.LEFT);
             }
         }
 
@@ -215,7 +215,7 @@ public class ChatActivity extends AppCompatActivity {
 
         public void addItem(SingleMessage singleMessage) {
             messages.add(singleMessage);
-            notifyItemInserted(getItemCount()-1);
+            notifyItemInserted(getItemCount() - 1);
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
@@ -225,11 +225,11 @@ public class ChatActivity extends AppCompatActivity {
             }
 
             public void setMessage(String message) {
-                ((TextView)itemView.findViewById(R.id.single_message_message)).setText(message);
+                ((TextView) itemView.findViewById(R.id.single_message_message)).setText(message);
             }
 
             public void setPerson(String person) {
-                ((TextView)itemView.findViewById(R.id.single_message_person)).setText(person);
+                ((TextView) itemView.findViewById(R.id.single_message_person)).setText(person);
             }
         }
     }
