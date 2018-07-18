@@ -59,7 +59,8 @@ public class Tab2 extends Fragment {
                                 .setDate(json.getString("date"))
                                 .setTime(json.getString("time"))
                                 .setInterest(json.getString("category"))
-                                .setLeader(json.getString("leader")));
+                                .setLeader(json.getString("leader"))
+                                .setRoomid((json.getString("_id"))));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -145,7 +146,7 @@ public class Tab2 extends Fragment {
                         public void onClick(View v) {
                             Intent intent = new Intent(getContext(), ChatActivity.class);
                             try{
-                                intent.putExtra("roomid", matchedRooms.get(i).getRoomid());
+                                intent.putExtra("room_id", matchedRooms.get(i).getRoomid());
                             }catch (Exception e){
                                 e.printStackTrace();
                             }
