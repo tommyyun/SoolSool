@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static String id = "sangjin";
-    public static boolean loggedIn = true;
+    public static boolean loggedIn = false;
 
     private static class MainHandler extends Handler {
         WeakReference<MainActivity> activity;
