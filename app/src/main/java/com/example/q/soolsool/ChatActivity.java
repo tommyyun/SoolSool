@@ -84,7 +84,7 @@ public class ChatActivity extends AppCompatActivity {
                         }, null));*/
                 if(socket.connected()) {
                     try {
-                        socket.emit("chat", new JSONObject("{\"room_id\" : "+room_id+", \"user_id\" : "+MainActivity.id+", \"message\" : "+((EditText) findViewById(R.id.message_field)).getText().toString()+"}"));
+                        socket.emit("chat", new JSONObject("{\"room_id\" : "+"\""+room_id+"\""+", \"user_id\" : "+"\""+MainActivity.id+"\""+", \"message\" : "+"\""+((EditText) findViewById(R.id.message_field)).getText().toString()+"\""+"}"));
                     } catch (JSONException e) {
                         System.out.println(e.getMessage());
                         e.printStackTrace();
