@@ -9,29 +9,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/tab1_region_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button" />
-
-        <Button
-            android:id="@+id/tab1_filter_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Button" />
-
-        <Spinner
-            android:id="@+id/tab1_spinner"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tab1_filter_button"/>
+            android:orientation="horizontal"
+            android:id="@+id/tab1_linear">
+
+            <Spinner
+                android:id="@+id/tab1_spinner"
+                android:layout_width="242dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:id="@+id/category_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/tab1_spinner">
+            android:layout_below="@id/tab1_linear">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/tab1_all_rooms"
@@ -51,47 +52,6 @@
                 android:background="#b3ffb2">
 
             </android.support.v7.widget.RecyclerView>
-
-            <!--<android.support.v7.widget.RecyclerView-->
-                <!--android:id="@+id/tab1_my_rooms"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="1"-->
-                <!--android:visibility="invisible"-->
-                <!--android:background="#b3ffb2">-->
-
-            <!--</android.support.v7.widget.RecyclerView>-->
-
-            <!--<android.support.v7.widget.RecyclerView-->
-                <!--android:id="@+id/tab1_my_rooms"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="1"-->
-                <!--android:visibility="invisible"-->
-                <!--android:background="#b3ffb2">-->
-
-            <!--</android.support.v7.widget.RecyclerView>-->
-
-            <!--<android.support.v7.widget.RecyclerView-->
-                <!--android:id="@+id/tab1_my_rooms"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="1"-->
-                <!--android:visibility="invisible"-->
-                <!--android:background="#b3ffb2">-->
-
-            <!--</android.support.v7.widget.RecyclerView>-->
-
-            <!--<android.support.v7.widget.RecyclerView-->
-                <!--android:id="@+id/tab1_my_rooms"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="1"-->
-                <!--android:visibility="invisible"-->
-                <!--android:background="#b3ffb2">-->
-
-            <!--</android.support.v7.widget.RecyclerView>-->
-
 
         </FrameLayout>
     </RelativeLayout>

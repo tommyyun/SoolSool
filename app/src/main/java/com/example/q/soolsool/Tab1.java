@@ -43,6 +43,7 @@ import java.util.Map;
 
 public class Tab1 extends Fragment {
     View view;
+    private String interest = "";
 
     @Nullable
     @Override
@@ -51,12 +52,20 @@ public class Tab1 extends Fragment {
         final RecyclerView all_view = view.findViewById(R.id.tab1_all_rooms);
         final RecyclerView my_view = view.findViewById(R.id.tab1_my_rooms);
         final Spinner tab1_spinner = (Spinner) view.findViewById(R.id.tab1_spinner);
+        final Spinner category_spinner = (Spinner) view.findViewById(R.id.category_spinner);
 
         String[] view_items = new String[]{"All Rooms", "My Rooms"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, view_items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tab1_spinner.setAdapter(adapter);
         tab1_spinner.setSelection(0);
+
+        final String[] cat_items = new String[]{"all", "love", "life", "work", "politics"};
+        ArrayAdapter<String> adapter_cat = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, cat_items);
+        adapter_cat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        category_spinner.setAdapter(adapter_cat);
+        category_spinner.setSelection(0);
+
 
         System.out.println(tab1_spinner.getSelectedItem().toString());
 
@@ -69,6 +78,32 @@ public class Tab1 extends Fragment {
                 } else if (tab1_spinner.getSelectedItem().toString().equals("All Rooms")) {
                     all_view.setVisibility(View.VISIBLE);
                     my_view.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
+        category_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (category_spinner.getSelectedItem().toString().equals("all")) {
+                    interest = "";
+                    refresh();
+                } else if (category_spinner.getSelectedItem().toString().equals("love")) {
+                    interest = "love";
+                    refresh();
+                } else if (category_spinner.getSelectedItem().toString().equals("work")) {
+                    interest = "work";
+                    refresh();
+                } else if (category_spinner.getSelectedItem().toString().equals("life")) {
+                    interest = "life";
+                    refresh();
+                } else if (category_spinner.getSelectedItem().toString().equals("politics")) {
+                    interest = "politics";
+                    refresh();
                 }
             }
 
@@ -109,7 +144,6 @@ public class Tab1 extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        System.out.println("asdf");
         refresh();
     }
 
@@ -138,15 +172,17 @@ public class Tab1 extends Fragment {
                                 .setParticipants(arr)
                                 .setInterest(json.getString("category"))
                                 .setTitle(json.getString("title"))
+                                .setRegion(json.getString("region"))
                                 .setDescription(json.getString("content"))
                                 .setTargetHold(json.getInt("targetHold"))
                                 .setCurrentHold(json.getInt("currentHold"))
                                 .setRoomid(json.getString("_id"));
 
-                        roomAdapter.addItem(room);
-                        if (room.getLeader().equals(MainActivity.id) || Arrays.asList(room.getParticipants()).contains(MainActivity.id)) {
-                            myroomAdapter.addItem(room);
-
+                        if (interest.equals("") || interest.equals(room.getInterest())) {
+                            roomAdapter.addItem(room);
+                            if (room.getLeader().equals(MainActivity.id) || Arrays.asList(room.getParticipants()).contains(MainActivity.id)) {
+                                myroomAdapter.addItem(room);
+                            }
                         }
 
                     } catch (Exception e) {
@@ -181,6 +217,7 @@ public class Tab1 extends Fragment {
             TextView content = view.findViewById(R.id.content);
             TextView target = view.findViewById(R.id.targethold);
             TextView current = view.findViewById(R.id.currenthold);
+            TextView region = view.findViewById(R.id.location);
             ImageView leader = view.findViewById(R.id.check_leader);
             ImageView category = view.findViewById(R.id.category_view);
 
@@ -188,6 +225,7 @@ public class Tab1 extends Fragment {
             try {
                 title.setText(rooms.get(i).getTitle());
                 content.setText(rooms.get(i).getDescription());
+                region.setText("@" + rooms.get(i).getRegion() + "");
                 target.setText(" / " + rooms.get(i).getTargetHold() + "");
                 current.setText(rooms.get(i).getCurrentHold() + "");
                 String strcat = rooms.get(i).getInterest();

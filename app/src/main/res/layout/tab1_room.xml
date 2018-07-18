@@ -30,6 +30,7 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="20dp"
                 android:text="TextView" />
 
             <TextView
@@ -45,11 +46,24 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="23dp"
-                android:layout_gravity="right"
-                android:id="@+id/check_leader"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center" />
+
+                <ImageView
+                    android:id="@+id/check_leader"
+                    android:layout_width="24dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="right" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
