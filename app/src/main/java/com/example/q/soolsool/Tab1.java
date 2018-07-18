@@ -42,14 +42,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Tab1 extends Fragment {
+    View view;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tab1, container, false);
+        view = inflater.inflate(R.layout.tab1, container, false);
         final RecyclerView all_view = view.findViewById(R.id.tab1_all_rooms);
         final RecyclerView my_view = view.findViewById(R.id.tab1_my_rooms);
-        final Tab1Adapter roomAdapter = new Tab1Adapter();
-        final Tab1Adapter myroomAdapter = new Tab1Adapter();
         final Spinner tab1_spinner = (Spinner) view.findViewById(R.id.tab1_spinner);
 
         String[] view_items = new String[]{"All Rooms", "My Rooms"};
@@ -67,7 +67,6 @@ public class Tab1 extends Fragment {
                     all_view.setVisibility(View.GONE);
                     my_view.setVisibility(View.VISIBLE);
                 } else if (tab1_spinner.getSelectedItem().toString().equals("All Rooms")) {
-                    System.out.println(tab1_spinner.getSelectedItem().toString());
                     all_view.setVisibility(View.VISIBLE);
                     my_view.setVisibility(View.GONE);
                 }
@@ -79,8 +78,6 @@ public class Tab1 extends Fragment {
         });
 
 
-        all_view.setAdapter(roomAdapter);
-        my_view.setAdapter(myroomAdapter);
         LinearLayoutManager lm_all = new LinearLayoutManager(getContext());
         LinearLayoutManager lm_my = new LinearLayoutManager(getContext());
         lm_all.setOrientation(LinearLayoutManager.VERTICAL);
@@ -97,6 +94,33 @@ public class Tab1 extends Fragment {
                     }
                 }
         );
+
+        FloatingActionButton refresh_room = (FloatingActionButton) view.findViewById(R.id.refresh_room);
+        refresh_room.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Toast.makeText(getActivity(), "새로고침 되었습니다.", Toast.LENGTH_LONG).show();
+                        refresh();
+                    }
+                }
+        );
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        System.out.println("asdf");
+        refresh();
+    }
+
+    public void refresh() {
+        final RecyclerView all_view = view.findViewById(R.id.tab1_all_rooms);
+        final RecyclerView my_view = view.findViewById(R.id.tab1_my_rooms);
+        final Tab1Adapter roomAdapter = new Tab1Adapter();
+        final Tab1Adapter myroomAdapter = new Tab1Adapter();
+        all_view.setAdapter(roomAdapter);
+        my_view.setAdapter(myroomAdapter);
 
         Volley.newRequestQueue(getContext()).add(new JsonArrayRequest("http://52.231.70.8:8080/room", new Response.Listener<JSONArray>() {
             @Override
@@ -116,8 +140,7 @@ public class Tab1 extends Fragment {
                                 .setInterest(json.getString("category"))
                                 .setTitle(json.getString("title"))
                                 .setDescription(json.getString("content"))
-                                .setMinHold(json.getInt("minHold"))
-                                .setMaxHold(json.getInt("maxHold"))
+                                .setTargetHold(json.getInt("targetHold"))
                                 .setCurrentHold(json.getInt("currentHold"))
                                 .setRoomid(json.getString("_id"));
 
@@ -138,10 +161,6 @@ public class Tab1 extends Fragment {
                 System.out.println(error.getMessage() + "12341234");
             }
         }));
-
-
-        return view;
-
     }
 
     class Tab1Adapter extends RecyclerView.Adapter<Tab1Adapter.Viewholder> {
@@ -161,7 +180,7 @@ public class Tab1 extends Fragment {
             View view = viewholder.itemView;
             TextView title = view.findViewById(R.id.title);
             TextView content = view.findViewById(R.id.content);
-            TextView max = view.findViewById(R.id.maxhold);
+            TextView target = view.findViewById(R.id.targethold);
             TextView current = view.findViewById(R.id.currenthold);
             ImageView leader = view.findViewById(R.id.check_leader);
             ImageView category = view.findViewById(R.id.category_view);
@@ -170,7 +189,7 @@ public class Tab1 extends Fragment {
             try {
                 title.setText(rooms.get(i).getTitle());
                 content.setText(rooms.get(i).getDescription());
-                max.setText(" / " + rooms.get(i).getMaxHold() + "");
+                target.setText(" / " + rooms.get(i).getTargetHold() + "");
                 current.setText(rooms.get(i).getCurrentHold() + "");
                 String strcat = rooms.get(i).getInterest();
 
@@ -251,7 +270,7 @@ public class Tab1 extends Fragment {
                                                                     System.out.println(response);
                                                                     mPopupWindow.dismiss();
                                                                     Toast.makeText(getActivity(), "삭제되었습니다.", Toast.LENGTH_LONG).show();
-
+                                                                    refresh();
                                                                 }
                                                             },
                                                             new Response.ErrorListener() {
@@ -295,6 +314,7 @@ public class Tab1 extends Fragment {
                                                             public void onResponse(String response) {
                                                                 mPopupWindow.dismiss();
                                                                 Toast.makeText(getActivity(), "방에서 나갔습니다.", Toast.LENGTH_LONG).show();
+                                                                refresh();
                                                             }
                                                         }, null));
                                                     } catch (Exception e) {
@@ -330,6 +350,7 @@ public class Tab1 extends Fragment {
                                                             public void onResponse(String response) {
                                                                 mPopupWindow.dismiss();
                                                                 Toast.makeText(getActivity(), "참여하였습니다.", Toast.LENGTH_LONG).show();
+                                                                refresh();
                                                             }
                                                         }, null));
                                                     } catch (Exception e) {

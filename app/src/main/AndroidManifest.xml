@@ -23,9 +23,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ChatActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".AddRoomActivity"
             android:screenOrientation="portrait" />
     </application>
