@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 System.out.println(i + "selected");
                 switch (i) {
                     case 0: {
-                        tabAdapter.reCreate1();
+                        tabAdapter.tab1.refresh();
                         System.out.println(11);
                         break;
                     }

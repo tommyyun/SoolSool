@@ -91,7 +91,7 @@ public class Room {
 
     public int getTargetHold() throws InstantiationException {
         if(targetHold == -1) {
-            throw new InstantiationException("MaxHold field not instantiated!");
+            throw new InstantiationException("TargetHold field not instantiated!");
         }
         return targetHold;
     }

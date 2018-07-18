@@ -41,8 +41,7 @@ public class AddRoomActivity extends AppCompatActivity {
 
         final EditText title = (EditText) findViewById(R.id.input_title);
         final EditText content = (EditText) findViewById(R.id.input_content);
-        final EditText minHold = (EditText) findViewById(R.id.input_minHold);
-        final EditText maxHold = (EditText) findViewById(R.id.input_maxHold);
+        final EditText targetHold = (EditText) findViewById(R.id.input_targetHold);
         final Spinner category = (Spinner) findViewById(R.id.spinner);
         final EditText region = (EditText) findViewById(R.id.region);
         final EditText day = (EditText) findViewById(R.id.date);
@@ -131,8 +130,7 @@ public class AddRoomActivity extends AppCompatActivity {
                                 Map<String, String> params = new HashMap<String, String>();
                                 params.put("title", title.getText().toString());
                                 params.put("content", content.getText().toString());
-                                params.put("minHold", minHold.getText().toString());
-                                params.put("maxHold", maxHold.getText().toString());
+                                params.put("targetHold", targetHold.getText().toString());
                                 params.put("category", category.getSelectedItem().toString());
                                 params.put("date", day.getText().toString());
                                 params.put("time", time.getText().toString());
