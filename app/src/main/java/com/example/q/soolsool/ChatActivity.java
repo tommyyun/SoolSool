@@ -50,6 +50,19 @@ public class ChatActivity extends AppCompatActivity {
     public int messageEnd = -1;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        socket.connect();
+        socket.emit("id", MainActivity.id);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        socket.disconnect();
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -57,6 +70,8 @@ public class ChatActivity extends AppCompatActivity {
 
         //Get room id of this chatting room
         room_id = getIntent().getStringExtra("room_id");
+        ((TextView)findViewById(R.id.title)).setText(getIntent().getStringExtra("title"));
+        ((TextView)findViewById(R.id.num_people)).setText(" ("+getIntent().getStringExtra("targetHold")+")");
 
         // Connect websocket
         try {
@@ -64,8 +79,7 @@ public class ChatActivity extends AppCompatActivity {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        socket.connect();
-        socket.emit("id", MainActivity.id);
+
 
         // Identify recyclerview and set adapter and layout manager
         final RecyclerView chat_rec_view = findViewById(R.id.chat_rec_view);
@@ -79,21 +93,22 @@ public class ChatActivity extends AppCompatActivity {
         findViewById(R.id.send_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Volley.newRequestQueue(ChatActivity.this).add(new StringRequest("http://52.231.70.8:9090/send/" + MainActivity.id + "/" + room_id + "/" + ((EditText) findViewById(R.id.message_field)).getText().toString(),
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                System.out.println("Message transmit succeeded");
-                            }
-                        }, null));*/
                 if (socket.connected()) {
                     try {
-                        socket.emit("chat", new JSONObject("{\"room_id\" : " + "\"" + room_id + "\"" + ", \"user_id\" : " + "\"" + MainActivity.id + "\"" + ", \"message\" : " + "\"" + ((EditText) findViewById(R.id.message_field)).getText().toString() + "\"" + "}"));
+                        String message = ((EditText) findViewById(R.id.message_field)).getText().toString();
+                        System.out.println("text : "+message);
+                        if(message==null || message.equals("")) {
+                            Toast.makeText(ChatActivity.this, "Empty message!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        socket.emit("chat", new JSONObject("{\"room_id\" : " + "\"" + room_id + "\"" + ", \"user_id\" : " + "\"" + MainActivity.id + "\"" + ", \"message\" : " + "\"" + message + "\"" + "}"));
+                        ((EditText) findViewById(R.id.message_field)).setText("");
                     } catch (JSONException e) {
                         System.out.println(e.getMessage());
                         e.printStackTrace();
                     }
-                } else
+                }
+                else
                     Toast.makeText(ChatActivity.this, "Internet connection failed", Toast.LENGTH_SHORT).show();
             }
         });
@@ -117,7 +132,8 @@ public class ChatActivity extends AppCompatActivity {
                 }
 
                 //Scroll to the bottom after initialization
-                chat_rec_view.smoothScrollToPosition(chat_rec_view.getAdapter().getItemCount() - 1);
+                if (chat_rec_view.getAdapter().getItemCount() > 0)
+                    chat_rec_view.smoothScrollToPosition(chat_rec_view.getAdapter().getItemCount() - 1);
             }
         }, null));
 
@@ -149,18 +165,21 @@ public class ChatActivity extends AppCompatActivity {
                     Volley.newRequestQueue(ChatActivity.this).add(new JsonArrayRequest("http://52.231.70.8:9090/receive/update/" + room_id + "/" + messageEnd, new Response.Listener<JSONArray>() {
                         @Override
                         public void onResponse(JSONArray response) {
-                            System.out.println(response.toString());
-                            for (int i = 0; i < response.length(); i++) {
-                                try {
-                                    JSONObject single_message_object = response.getJSONObject(i);
-                                    if (i == response.length() - 1)
-                                        messageEnd = single_message_object.getInt("index");
-                                    chatRecViewAdapter.addItem(new SingleMessage(single_message_object.getString("creator"), single_message_object.getString("message"), (single_message_object.getString("creator").equals(MainActivity.id)) ? true : false));
-                                    //Scroll to the bottom after initialization
-                                    chat_rec_view.smoothScrollToPosition(chat_rec_view.getAdapter().getItemCount() - 1);
-                                } catch (Exception e) {
-                                    System.out.println(e.getMessage());
-                                    e.printStackTrace();
+                            synchronized (chatRecViewAdapter) {
+                                System.out.println(response.toString());
+                                for (int i = 0; i < response.length(); i++) {
+                                    try {
+                                        JSONObject single_message_object = response.getJSONObject(i);
+                                        if(single_message_object.getInt("index")==messageEnd+1) {
+                                            chatRecViewAdapter.addItem(new SingleMessage(single_message_object.getString("creator"), single_message_object.getString("message"), (single_message_object.getString("creator").equals(MainActivity.id)) ? true : false));
+                                            messageEnd++;
+                                        }
+                                        //Scroll to the bottom after initialization
+                                        chat_rec_view.smoothScrollToPosition(chat_rec_view.getAdapter().getItemCount() - 1);
+                                    } catch (Exception e) {
+                                        System.out.println(e.getMessage());
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
                         }

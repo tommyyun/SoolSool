@@ -60,6 +60,7 @@ public class Tab2 extends Fragment {
                                 .setTime(json.getString("time"))
                                 .setInterest(json.getString("category"))
                                 .setLeader(json.getString("leader"))
+                                .setTargetHold(json.getInt("targetHold"))
                                 .setRoomid((json.getString("_id"))));
                     }
                 } catch (JSONException e) {
@@ -148,7 +149,7 @@ public class Tab2 extends Fragment {
                             try{
                                 intent.putExtra("room_id", matchedRooms.get(i).getRoomid());
                                 intent.putExtra("title", matchedRooms.get(i).getTitle());
-                                intent.putExtra("targetHold", matchedRooms.get(i).getTargetHold());
+                                intent.putExtra("targetHold", Integer.toString(matchedRooms.get(i).getTargetHold()));
                             }catch (Exception e){
                                 e.printStackTrace();
                             }
