@@ -77,7 +77,6 @@ public class Tab1 extends Fragment {
             }
         });
 
-
         LinearLayoutManager lm_all = new LinearLayoutManager(getContext());
         LinearLayoutManager lm_my = new LinearLayoutManager(getContext());
         lm_all.setOrientation(LinearLayoutManager.VERTICAL);
