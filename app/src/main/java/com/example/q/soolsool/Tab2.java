@@ -147,6 +147,8 @@ public class Tab2 extends Fragment {
                             Intent intent = new Intent(getContext(), ChatActivity.class);
                             try{
                                 intent.putExtra("room_id", matchedRooms.get(i).getRoomid());
+                                intent.putExtra("title", matchedRooms.get(i).getTitle());
+                                intent.putExtra("targetHold", matchedRooms.get(i).getTargetHold());
                             }catch (Exception e){
                                 e.printStackTrace();
                             }
