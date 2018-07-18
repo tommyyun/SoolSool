@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static String id = "sangjin";
-    public static boolean loggedIn = true;
+    public static boolean loggedIn = false;
 
     private static class MainHandler extends Handler {
         WeakReference<MainActivity> activity;
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 System.out.println(i + "selected");
                 switch (i) {
                     case 0: {
-                        tabAdapter.reCreate1();
+                        tabAdapter.tab1.refresh();
                         System.out.println(11);
                         break;
                     }

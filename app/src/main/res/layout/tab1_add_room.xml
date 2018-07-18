@@ -19,7 +19,7 @@
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+            android:layout_width="112dp"
             android:layout_height="wrap_content"
             android:text="카테고리" />
 
@@ -82,36 +82,13 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/minHold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="최소 인원" />
+            android:text="목표 인원" />
 
         <EditText
-            android:id="@+id/input_minHold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="3"
-            android:inputType="number" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/maxHold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="최대 인원" />
-
-        <EditText
-            android:id="@+id/input_maxHold"
+            android:id="@+id/input_targetHold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

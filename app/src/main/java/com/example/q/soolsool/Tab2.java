@@ -38,6 +38,10 @@ public class Tab2 extends Fragment {
     }
 
     public void load() {
+        if(!MainActivity.loggedIn)
+            return;
+        view.findViewById(R.id.tab2_sample_room).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.tab2_matched_rec).setVisibility(View.VISIBLE);
         RecyclerView rec_view = view.findViewById(R.id.tab2_matched_rec);
         final Tab2MatchedRoomAdapter matchedRoomAdapter = new Tab2MatchedRoomAdapter();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
