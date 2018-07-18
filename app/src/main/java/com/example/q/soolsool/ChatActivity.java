@@ -1,6 +1,7 @@
 package com.example.q.soolsool;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -42,7 +43,7 @@ import io.socket.emitter.Emitter;
 
 public class ChatActivity extends AppCompatActivity {
 
-    private String room_id = "5b4dff79737d77c7a5ec94ed";
+    private String room_id;
     private Socket socket;
 
     public int messageStart = -1;
@@ -53,6 +54,9 @@ public class ChatActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        //Get room id of this chatting room
+        room_id = getIntent().getStringExtra("room_id");
 
         // Connect websocket
         try {
