@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import java.lang.ref.WeakReference;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    public static String id="on";
+    public static String id="sangjin";
     public static boolean loggedIn = true;
 
     private static class MainHandler extends Handler {
