@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,16 +28,22 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Tab2 extends Fragment {
-
+    View view;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tab2, container, false);
+        view = inflater.inflate(R.layout.tab2, container, false);
+        load();
+        return view;
+    }
+
+    public void load() {
         RecyclerView rec_view = view.findViewById(R.id.tab2_matched_rec);
         final Tab2MatchedRoomAdapter matchedRoomAdapter = new Tab2MatchedRoomAdapter();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         rec_view.setAdapter(matchedRoomAdapter);
         rec_view.setLayoutManager(layoutManager);
+
         Volley.newRequestQueue(getContext()).add(new StringRequest(StringRequest.Method.GET, "http://52.231.70.8:8080/room/matched/" + MainActivity.id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -64,7 +71,6 @@ public class Tab2 extends Fragment {
                 System.out.println(error.getMessage());
             }
         }));
-        return view;
     }
 
     private class Tab2MatchedRoomAdapter extends RecyclerView.Adapter<Tab2MatchedRoomAdapter.ViewHolder> {

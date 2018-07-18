@@ -1,5 +1,6 @@
 package com.example.q.soolsool;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
@@ -10,17 +11,21 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    public static String id="on";
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    public static String id = "on";
     public static boolean loggedIn = true;
 
     private static class MainHandler extends Handler {
@@ -33,13 +38,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if(msg.arg1==0) {
+            if (msg.arg1 == 0) {
                 activity.get().findViewById(R.id.splash_image).setVisibility(View.GONE);
                 activity.get().findViewById(R.id.main_layout).setVisibility(View.VISIBLE);
             }
         }
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         daericall.setOnClickListener(this);
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
-        ViewPager viewPager = findViewById(R.id.viewPager);
+        final ViewPager viewPager = findViewById(R.id.viewPager);
         viewPager.setOffscreenPageLimit(0);
         final TabAdapter tabAdapter = new TabAdapter(getSupportFragmentManager());
         viewPager.setAdapter(tabAdapter);
@@ -63,24 +67,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onPageSelected(int i) {
-                System.out.println(i+"selected");
-                switch(i) {
-                    case 0 : {
+
+
+                System.out.println(i + "selected");
+                switch (i) {
+                    case 0: {
                         tabAdapter.reCreate1();
                         System.out.println(11);
                         break;
                     }
-                    case 1 : {
-                        tabAdapter.reCreate2();
+                    case 1: {
+                        tabAdapter.tab2.load();
                         System.out.println(22);
                         break;
                     }
-                    case 2 : {
+                    case 2: {
                         tabAdapter.reCreate3();
                         System.out.println(33);
                         break;
                     }
-                    default : break;
+                    default:
+                        break;
                 }
             }
 
@@ -103,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
                 Message msg = new Message();
-                msg.arg1=0;
+                msg.arg1 = 0;
                 handler.sendMessage(msg);
             }
         }.start();
@@ -111,28 +118,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View v){
+    public void onClick(View v) {
         Intent callIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("tel:1577-1577"));
         startActivity(callIntent);
     }
 
 
     class TabAdapter extends FragmentPagerAdapter {
+        public Tab1 tab1 = new Tab1();
+        public Tab2 tab2 = new Tab2();
+        public Tab3 tab3 = new Tab3();
 
-        private Tab1 tab1 = new Tab1();
-        private Tab2 tab2 = new Tab2();
-        private Tab3 tab3 = new Tab3();
-
-        TabAdapter(FragmentManager fm) {
+        public TabAdapter(FragmentManager fm) {
             super(fm);
         }
 
+
         @Override
         public Fragment getItem(int i) {
-            switch(i) {
-                case 0 : return tab1;
-                case 1 : return tab2;
-                case 2 : return tab3;
+            switch (i) {
+                case 0:
+                    return tab1;
+                case 1:
+                    return tab2;
+                case 2:
+                    return tab3;
             }
             return null;
         }
@@ -140,15 +150,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
-            switch(position) {
-                case 0 : return "Rooms";
-                case 1 : return "Chats";
-                case 2 : return "LogIn";
+            switch (position) {
+                case 0:
+                    return "Rooms";
+                case 1:
+                    return "Chats";
+                case 2:
+                    return "LogIn";
             }
             return null;
         }
 
         public void reCreate1() {
+            tab1 = new Tab1();
         }
 
         public void reCreate2() {
@@ -158,7 +172,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void reCreate3() {
             tab3 = new Tab3();
         }
-
 
         @Override
         public int getCount() {
