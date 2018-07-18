@@ -15,12 +15,13 @@
 
         <TextView
             android:id="@+id/ask_text"
-            android:paddingLeft="50dp"
+            android:paddingLeft="30dp"
             android:paddingTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="93dp"
             android:textColor="#ffff"
-            android:text="참여하시겠습니까?"/>
+            android:text="이미 참여한 방입니다.\n     나가시겠습니까?"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"

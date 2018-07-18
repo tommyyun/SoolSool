@@ -12,20 +12,37 @@ public class Room {
     public static int REGION_SEOUL_HANNAM = 92;
 
     private String interest = null;
-    private int region = -1;
+    private String region = null;
     private String title;
     private String description;
-    private int minHold = -1;
-    private int maxHold = -1;
+    private int targetHold = -1;
     private int currentHold = -1;
     private String leader = null;
     private String[] participants = null;
     private String roomid = null;
+    private String date = null;
+    private String time = null;
+
+    public String getDate() throws InstantiationException{
+        if (date ==null){
+            throw new InstantiationException("Date field not instantiated!");
+        }
+        return date;
+    }
+
+    public String getTime() throws InstantiationException{
+        if (time ==null){
+            throw new InstantiationException("Time field not instantiated!");
+        }
+        return time;
+    }
+
+
 
 
     public String getRoomid() throws InstantiationException{
         if (roomid ==null){
-            throw new InstantiationException("Leader field not instantiated!");
+            throw new InstantiationException("RoomId field not instantiated!");
         }
         return roomid;
     }
@@ -51,8 +68,8 @@ public class Room {
         return interest;
     }
 
-    public int getRegion() throws InstantiationException {
-        if(region == -1) {
+    public String getRegion() throws InstantiationException {
+        if(region == null) {
             throw new InstantiationException("Region field not instantiated!");
         }
         return region;
@@ -72,18 +89,11 @@ public class Room {
         return description;
     }
 
-    public int getMinHold() throws InstantiationException {
-        if(minHold==-1) {
-            throw new InstantiationException("MinHold field not instantiated!");
-        }
-        return minHold;
-    }
-
-    public int getMaxHold() throws InstantiationException {
-        if(maxHold == -1) {
+    public int getTargetHold() throws InstantiationException {
+        if(targetHold == -1) {
             throw new InstantiationException("MaxHold field not instantiated!");
         }
-        return maxHold;
+        return targetHold;
     }
 
     public int getCurrentHold() throws InstantiationException {
@@ -115,8 +125,17 @@ public class Room {
         return this;
     }
 
-    public Room setRegion(int _region) {
+    public Room setRegion(String _region) {
         region = _region;
+        return this;
+    }
+
+    public Room setDate(String _date) {
+        date = _date;
+        return this;
+    }
+    public Room setTime(String _time) {
+        time = _time;
         return this;
     }
 
@@ -130,13 +149,8 @@ public class Room {
         return this;
     }
 
-    public Room setMinHold(int _minHold) {
-        minHold= _minHold;
-        return this;
-    }
-
-    public Room setMaxHold(int _maxHold) {
-        maxHold = _maxHold;
+    public Room setTargetHold(int _targetHold) {
+        targetHold = _targetHold;
         return this;
     }
 
@@ -151,8 +165,7 @@ public class Room {
         output+="\nRegion : "+region;
         output+="\nTitle : "+title;
         output+="\nDescription : "+description;
-        output+="\nMin hold : "+minHold;
-        output+="\nMax hold : " +maxHold;
+        output+="\nTarget hold : " +targetHold;
         output+="\nCurrent hold : "+currentHold;
 
         return output;
