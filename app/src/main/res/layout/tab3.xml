@@ -68,6 +68,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/tab3_after_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="35dp"
@@ -118,12 +119,14 @@
                 android:textSize="25dp" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/tab3_logout_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
                 android:layout_weight="1"
-                android:text="Log out"
-                android:textSize="20dp" />
+                android:text="로그아웃"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
 
         </LinearLayout>

@@ -73,6 +73,11 @@ public class Tab1 extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (tab1_spinner.getSelectedItem().toString().equals("My Rooms")) {
+                    if(!MainActivity.loggedIn) {
+                        tab1_spinner.setSelection(0);
+                        Toast.makeText(getContext(), "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     all_view.setVisibility(View.GONE);
                     my_view.setVisibility(View.VISIBLE);
                 } else if (tab1_spinner.getSelectedItem().toString().equals("All Rooms")) {
@@ -123,6 +128,10 @@ public class Tab1 extends Fragment {
         create_room.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
+                        if(!MainActivity.loggedIn) {
+                            Toast.makeText(getContext(), "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         Intent intent = new Intent(getContext(), AddRoomActivity.class);
                         startActivity(intent);
                     }
