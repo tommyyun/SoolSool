@@ -84,7 +84,7 @@ public class Tab2 extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
             View view = viewHolder.itemView;
             TextView room_loc = view.findViewById(R.id.room_loc);
             TextView room_title = view.findViewById(R.id.room_title);
@@ -144,6 +144,11 @@ public class Tab2 extends Fragment {
                     new View.OnClickListener() {
                         public void onClick(View v) {
                             Intent intent = new Intent(getContext(), ChatActivity.class);
+                            try{
+                                intent.putExtra("roomid", matchedRooms.get(i).getRoomid());
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                             startActivity(intent);
                         }
                     }
