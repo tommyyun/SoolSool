@@ -15,8 +15,7 @@ public class Room {
     private String region = null;
     private String title;
     private String description;
-    private int minHold = -1;
-    private int maxHold = -1;
+    private int targetHold = -1;
     private int currentHold = -1;
     private String leader = null;
     private String[] participants = null;
@@ -26,14 +25,14 @@ public class Room {
 
     public String getDate() throws InstantiationException{
         if (date ==null){
-            throw new InstantiationException("Leader field not instantiated!");
+            throw new InstantiationException("Date field not instantiated!");
         }
         return date;
     }
 
     public String getTime() throws InstantiationException{
         if (time ==null){
-            throw new InstantiationException("Leader field not instantiated!");
+            throw new InstantiationException("Time field not instantiated!");
         }
         return time;
     }
@@ -43,7 +42,7 @@ public class Room {
 
     public String getRoomid() throws InstantiationException{
         if (roomid ==null){
-            throw new InstantiationException("Leader field not instantiated!");
+            throw new InstantiationException("RoomId field not instantiated!");
         }
         return roomid;
     }
@@ -90,18 +89,11 @@ public class Room {
         return description;
     }
 
-    public int getMinHold() throws InstantiationException {
-        if(minHold==-1) {
-            throw new InstantiationException("MinHold field not instantiated!");
+    public int getTargetHold() throws InstantiationException {
+        if(targetHold == -1) {
+            throw new InstantiationException("TargetHold field not instantiated!");
         }
-        return minHold;
-    }
-
-    public int getMaxHold() throws InstantiationException {
-        if(maxHold == -1) {
-            throw new InstantiationException("MaxHold field not instantiated!");
-        }
-        return maxHold;
+        return targetHold;
     }
 
     public int getCurrentHold() throws InstantiationException {
@@ -157,13 +149,8 @@ public class Room {
         return this;
     }
 
-    public Room setMinHold(int _minHold) {
-        minHold= _minHold;
-        return this;
-    }
-
-    public Room setMaxHold(int _maxHold) {
-        maxHold = _maxHold;
+    public Room setTargetHold(int _targetHold) {
+        targetHold = _targetHold;
         return this;
     }
 
@@ -178,8 +165,7 @@ public class Room {
         output+="\nRegion : "+region;
         output+="\nTitle : "+title;
         output+="\nDescription : "+description;
-        output+="\nMin hold : "+minHold;
-        output+="\nMax hold : " +maxHold;
+        output+="\nTarget hold : " +targetHold;
         output+="\nCurrent hold : "+currentHold;
 
         return output;
